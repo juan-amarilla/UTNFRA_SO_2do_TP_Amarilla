@@ -1,0 +1,45 @@
+---
+# tasks file for 2do_parcial
+
+- debug:
+    msg: "Tareas del 2do Parcial"
+
+- name: crea directorios si no existe
+  ansible.builtin.file:
+    path: /tmp/2do_parcial/alumno
+    state: directory
+    mode: '0755'
+
+- name: crea directorios si no existe
+  ansible.builtin.file:
+    path: /tmp/2do_parcial/equipo
+    state: directory
+    mode: '0755'
+
+- name: Usando modulo template
+  become: yes
+  ansible.builtin.template:
+    src: templates/info_alumno.j2
+    dest: /tmp/2do_parcial/alumno/datos_alumno.txt
+    owner: juan_sebastian
+    group: juan_sebastian
+    mode: '0644'
+
+- name: Usando modulo template
+  become: yes
+  ansible.builtin.template:
+    src: templates/info_pc.j2
+    dest: /tmp/2do_parcial/equipo/datos_equipo.txt
+    owner: juan_sebastian
+    group: juan_sebastian
+    mode: '0644'
+
+- name: Modificando sudoers
+  become: yes
+  ansible.builtin.template:
+    src: templates/info_sudoers.j2
+    dest: /etc/sudoers.d/2PSupervisores
+    owner: root
+    group: root
+    mode: '0440'
+
